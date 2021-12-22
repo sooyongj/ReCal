@@ -12,7 +12,7 @@ import torch.nn.functional as F
 
 from random import choices
 
-from Ece import ECE
+from ReCal.Ece import ECE
 
 
 class PostCalTransPool:

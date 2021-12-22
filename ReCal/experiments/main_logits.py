@@ -11,7 +11,7 @@ import random
 
 import numpy as np
 
-from PostCalTransPool import PostCalTransPool
+from ReCal.PostCalTransPool import PostCalTransPool
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', dest='dataset_name', default='MNIST',
@@ -20,11 +20,11 @@ parser.add_argument('--dataset', dest='dataset_name', default='MNIST',
 parser.add_argument('--model', dest='model_name', default='lenet5',
                     choices=['lenet5', 'resnet110', 'resnet110sd', 'resnet152', 'resnet152sd', 'densenet40', 'densenet161', 'wrn28-10', 'mobilenetv2', 'wrn101-2'])
 parser.add_argument('--cal_method', default='uncalibrated', type=str)
-parser.add_argument('--root_dir', dest='root_dir', default='outputs/MNIST/lenet5_zoom_0.5_0.9_10/uncalibrated', type=str)
+parser.add_argument('--root_dir', dest='root_dir', default='outputs/MNIST/uncalibrated', type=str)
 parser.add_argument('--seed', default=100, type=int)
 parser.add_argument('--device', default='cuda', choices=['cpu', 'cuda'])
-parser.add_argument('--iter_list', nargs='+', default=['zoom', 0.5, 0.9])
-parser.add_argument('--n_iters', default=5, type=int)
+parser.add_argument('--iter_list', nargs='+', default=['zoom', 0.1, 0.9])
+parser.add_argument('--n_iters', default=200, type=int)
 
 
 def parse_iter_list(str_list):
@@ -42,7 +42,7 @@ def parse_iter_list(str_list):
 
 
 def write_summaries(summaries, dataset_name, model_name, cal_method, trans, mode, N, L):
-  summaries_dir = 'summaries'
+  summaries_dir = '../../summaries'
   if not os.path.exists(summaries_dir):
     os.makedirs(summaries_dir)
 

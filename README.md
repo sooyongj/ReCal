@@ -1,20 +1,45 @@
-# Recursive Calibration (ReCal)
+# Recursive  lossy label-invariant Calibration (ReCal)
 
 This repository is for Improving Classifier Confidence using Lossy Label-Invariant Transformations [[1]](#1).
 ReCal supports MNIST, CIFAR10/100, ImageNet with various models for each dataset, but currently, this repository does not contain the training code of models for MNIST and CIFAR10/100.
 Therefore, you can use ReCal for ImageNet. 
 
 # How to use
-To use ReCal, you need to do 1) Export logits, and 2) Calbirate and evaluate.
-The below two sections will explain each steps and provide sample command. 
-## Export logits
+We provide two versions of ReCal: 1) library version, and 2) standalone version.
+With the library version, you can apply ReCal to your dataset and model, and standalone version is for the selected datasets and models.
+
+To apply ReCal, you need to do 1) Export logits, and 2) Calibrate and evaluate.
+The below two sections will explain each steps and provide sample command.
+
+## Library Version
+With this library version, ReCal can be applied to any datasets and models.
+
+### Export logits.
+'ReCal/experiments/main_export_example.py' is an example to show how to use 'ReCal/LogitsFileExport.py.'
+With this example, the logits for MNIST validation set will be stored as files.
+The below command is how to use the script.`
+```
+python ReCal/experiments/main_export_logits.py
+```
+
+
+### Calibration
+'ReCal/experiments/main_example.py' illustrates how to use 'ReCal/Calibrator.py.' This script loads the logits for MNIST validation set which prepared by the above 'main_export_example.py', and calibrate MNIST LeNet5 classifier for MNIST test set data.
+The below command is how to use the script.`
+```
+python ReCal/experiments/main_example.py
+```
+
+## Standalone version
+The following sections explains how to export logits and calibrate classifiers for the datasets and models like the paper. 
+### Export logits
 'main_export_logits.py' will export logits for the given dataset and model. ReCal uses multiple transformations for calibration, and this script will export all logits before and after such transformations.
 The transformation types and arguments can be configured with the command line options, and please refer to the below table for the detail.
 This script will compute logits before/after transformation and store the logits in 'outputs/DATASET/MODEL_ITERLIST_NTrans'. 
 
 The below command is for extracting logits for DenseNet161 on ImageNet with 10 Zoom-out transformation whose scale is between 0.5, 0.9,
 ``` 
-python main_export_logits.py --dataset ImageNet --model densenet161
+python ReCal/experiments/main_export_logits.py --dataset ImageNet --model densenet161
 ```
 
 |Option|Desc|Default|Possible values|
@@ -33,12 +58,12 @@ python main_export_logits.py --dataset ImageNet --model densenet161
 |--n_trans|Number of transformations|10|Integer numbers|
  
 
-## Calibrate and evaluate
+### Calibrate and evaluate
 After logits are prepared, 'main_logits.py' will load the logits and calibrate the model and evalute the result.
 The below command is for ImageNet, DenseNet161 with 10 zoom-out transformations whose scale factor is between 0.5 and 0.9.
 
 ```
-python main_logits.py --dataset ImageNet --model densenet161 --root_dir outputs/ImageNet/densenet_zoom_0.5_0.9_10/uncalibrated --n_iters 200
+python ReCal/experiments/main_logits.py --dataset ImageNet --model densenet161 --root_dir outputs/ImageNet/densenet_zoom_0.5_0.9_10/uncalibrated --n_iters 200
 ```
 
 |Option|Desc|Default|Possible values|

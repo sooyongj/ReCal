@@ -2,7 +2,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from Ece import ECE
+from ReCal.Ece import ECE
 
 
 class TempScaleNewtonModel(torch.nn.Module):

@@ -2,7 +2,7 @@ import os
 import torch
 import torchvision
 
-from BrightnessTransform import BrightnessTransform
+from ReCal.transformations.BrightnessTransform import BrightnessTransform
 
 class ImageNet:
   def __init__(self, dataset_root):

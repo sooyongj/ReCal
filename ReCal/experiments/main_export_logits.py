@@ -9,23 +9,23 @@ import torch
 
 import random
 
-from datasets.MNIST import MNIST
-from datasets.CIFAR import CIFAR
-from datasets.ImageNet import ImageNet
-from classifiers.MNISTClassifier import MNIST_LeNet5
-from classifiers.CIFARModel import CIFARModel
-from classifiers.ImageNet_Model import ImageNet_Model
+from ReCal.datasets.MNIST import MNIST
+from ReCal.datasets.CIFAR import CIFAR
+from ReCal.datasets.ImageNet import ImageNet
+from ReCal.classifiers.MNISTClassifier import MNIST_LeNet5
+from ReCal.classifiers.CIFARModel import CIFARModel
+from ReCal.classifiers.ImageNet_Model import ImageNet_Model
 
-from Ece import ECE
+from ReCal.Ece import ECE
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset', dest='dataset_name', default='CIFAR10',
+parser.add_argument('--dataset', dest='dataset_name', default='MNIST',
                     choices=['MNIST', 'CIFAR10', 'CIFAR100', 'ImageNet'],
                     type=str)
 parser.add_argument('--before_ts', dest='after_ts', action='store_false')
 parser.add_argument('--after_ts', dest='after_ts', action='store_true')
 parser.set_defaults(after_ts=False)
-parser.add_argument('--model', dest='model_name', default='densenet40',
+parser.add_argument('--model', dest='model_name', default='lenet5',
                     choices=['lenet5', 'resnet110', 'resnet110sd', 'resnet152', 'resnet152sd', 'densenet40', 'densenet161', 'wrn28-10', 'mobilenetv2', 'wrn101-2'])
 parser.add_argument('--trans_type', default='zoom', choices=['zoom', 'brightness'], type=str)
 parser.add_argument('--trans_arg', default=0.5, type=float)
@@ -33,8 +33,8 @@ parser.add_argument('--train_batch_size', default=100, type=int)
 parser.add_argument('--test_batch_size', default=100, type=int)
 parser.add_argument('--seed', default=100, type=int)
 parser.add_argument('--device', default='cuda', choices=['cpu', 'cuda'])
-parser.add_argument('--iter_list', nargs='+', default=['zoom', 0.5, 0.9])
-parser.add_argument('--n_trans', default=10, type=int)
+parser.add_argument('--iter_list', nargs='+', default=['zoom', 0.1, 0.9])
+parser.add_argument('--n_trans', default=20, type=int)
 
 
 def parse_iter_list(str_list):

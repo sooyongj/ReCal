@@ -2,7 +2,7 @@ import torch
 import torchvision
 
 from DatasetUtil import split_train_val
-from BrightnessTransform import BrightnessTransform
+from ReCal.transformations.BrightnessTransform import BrightnessTransform
 
 
 class MNIST:
