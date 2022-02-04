@@ -102,11 +102,11 @@ def run(args):
 
   def scheduler(epoch):
     if epoch < 100:
-      return 0.01
+      return 0.1
     elif epoch < 150:
-      return 0.005
+      return 0.05
     else:
-      return 0.001
+      return 0.01
 
   best_acc = 0.0
   ckpt_dir = 'checkpoint'

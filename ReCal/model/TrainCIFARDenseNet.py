@@ -98,8 +98,13 @@ def run(args):
   criterion = nn.CrossEntropyLoss()
   optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
 
-  def scheduler(initial_lr, epoch):
-    return initial_lr * (0.1 ** (epoch // 150)) * (0.1 ** (epoch // 225))
+  def scheduler(epoch):
+    if epoch < 150:
+      return 1
+    elif epoch < 225:
+      return 0.1
+    else:
+      return 0.01
 
   best_acc = 0.0
   ckpt_dir = 'checkpoint'
@@ -108,7 +113,7 @@ def run(args):
 
   base_filename = ('cifar10_' if is_ten else 'cifar100_') + model_name
   filepath = os.path.join(ckpt_dir, base_filename + ".pth")
-  lr_scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda e: scheduler(args.lr, e))
+  lr_scheduler = optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lambda e: scheduler(e))
   for epoch in range(args.epochs):
     train(train_loader, model, criterion, optimizer, epoch, device)
     test_loss, test_acc = test(test_loader, model, criterion, device)
